@@ -1,7 +1,11 @@
 {
   "name": "electimer",
+  "hopepage": "./",
+  "main": "electron/main.ts",
   "version": "0.1.0",
-  "main": "public/Main.ts",
+  "license": "MIT",
+  "description": "A timer app",
+  "author": "Christian DeCarle",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
@@ -11,19 +15,28 @@
     "@types/node": "^12.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "concurrently": "^6.0.0",
+    "electron-is-dev": "^2.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
     "typescript": "^4.1.2",
-    "web-vitals": "^1.0.1",
-    "electron": "^7.6.3"
+    "wait-on": "^5.3.0",
+    "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
     "build": "react-scripts build",
+    "start": "react-scripts start",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "electron-start": "electron ."
+    "ebuild": "npm run build && node_modules/.bin/build",
+    "dev": "concurrently \"npm start\" \"wait-on http://localhost:3000 && electron .\"",
+    "pack": "electron-builder --dir -w",
+    "dist": "electron-builder",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "build": {
+    "appId": "com.electron.${name}"
   },
   "eslintConfig": {
     "extends": [
@@ -44,6 +57,7 @@
     ]
   },
   "devDependencies": {
-    "electron": "^12.0.1"
+    "electron": "^12.0.1",
+    "electron-builder": "^22.10.5"
   }
 }
