@@ -1,7 +1,7 @@
 {
   "name": "electimer",
-  "hopepage": "./",
-  "main": "electron/main.ts",
+  "homepage": "./",
+  "main": "electron/electron.ts",
   "version": "0.1.0",
   "license": "MIT",
   "description": "A timer app",
@@ -17,6 +17,7 @@
     "@types/react-dom": "^17.0.0",
     "concurrently": "^6.0.0",
     "electron-is-dev": "^2.0.0",
+    "node": "^15.10.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
@@ -30,13 +31,24 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "ebuild": "npm run build && node_modules/.bin/build",
-    "dev": "concurrently \"npm start\" \"wait-on http://localhost:3000 && electron .\"",
-    "pack": "electron-builder --dir -w",
+    "dev": "concurrently \"yarn start\" \"wait-on http://localhost:3000 && electron .\"",
+    "pack": "electron-builder --dir",
     "dist": "electron-builder",
-    "postinstall": "electron-builder install-app-deps"
+    "postinstall": "electron-builder install-app-deps",
+    "electron-pack": "yarn build --em.main=build/electron.js",
+    "electron-package": "",
+    "preelectron-pack": "yarn build",
+    "package-win": "electron-packager . electimer --overwrite --platform=win32 --arch=x64 --icon=public/favicon.ico --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Electimer\""
   },
   "build": {
-    "appId": "com.electron.${name}"
+    "appId": "com.electron.electimer",
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    }
   },
   "eslintConfig": {
     "extends": [
