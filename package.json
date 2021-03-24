@@ -32,11 +32,8 @@
     "eject": "react-scripts eject",
     "ebuild": "npm run build && node_modules/.bin/build",
     "dev": "concurrently \"yarn start\" \"wait-on http://localhost:3000 && electron .\"",
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder",
     "postinstall": "electron-builder install-app-deps",
     "electron-pack": "yarn build --em.main=build/electron.js",
-    "electron-package": "",
     "preelectron-pack": "yarn build",
     "package-win": "electron-packager . electimer --overwrite --platform=win32 --arch=x64 --icon=public/favicon.ico --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Electimer\""
   },
