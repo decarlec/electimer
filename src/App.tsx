@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { MainForm } from './MainForm';
+import { MainForm } from './Components/MainForm';
 
 const App = () => (
     <MainForm message="Hello!"/>
