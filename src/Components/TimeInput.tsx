@@ -1,8 +1,11 @@
 import React, { createRef } from "react";
+import Timer from "./Timer";
+
+const defaultTimerDuration = "15";
 
 type TimeInputProps = {
-    defaultTimerDuration: string
 }
+
 
 type TimeInputState = {
     value: string,
@@ -13,7 +16,7 @@ export default class TimeInput extends React.Component<TimeInputProps, TimeInput
 
     constructor(props: TimeInputProps){
         super(props);
-        this.state = { value: props.defaultTimerDuration }
+        this.state = { value: defaultTimerDuration }
         this.handleChange = this.handleChange.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
@@ -38,6 +41,7 @@ export default class TimeInput extends React.Component<TimeInputProps, TimeInput
                     onClick={this.handleClick}
                     ref={this.instanceRef} />
                 </form>
+                <Timer duration={parseInt(this.state.value)} /*clickHandler={this.handleBtnClick}*/ ></Timer>
             </div>
         )
     }

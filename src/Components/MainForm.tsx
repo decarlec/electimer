@@ -4,12 +4,14 @@ import TimeInput from './TimeInput';
 import Timer from './Timer';
 
 type MainFormState = {
+    durationInput: string, 
     count: number,
     currentDateTime: Date
 }
 
 export class MainForm extends React.Component<{ message: string}, MainFormState>{
     state: MainFormState = {
+        durationInput:"",
         count: 0,
         currentDateTime: new Date()
     }
@@ -19,10 +21,9 @@ export class MainForm extends React.Component<{ message: string}, MainFormState>
         return(
             <div>
                 <div onClick={() => this.increment(1)}>
-                    {this.props.message} {this.state.count}
+                    {this.state.count}
                 </div>
-                <Timer buttonText="Button"></Timer>
-                <TimeInput defaultTimerDuration="15" ></TimeInput>
+                <TimeInput ></TimeInput>
                 <Moment format="YYYY/MM/DD hh:mm:ss"></Moment>
             </div>
 
