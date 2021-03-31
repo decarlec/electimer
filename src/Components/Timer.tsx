@@ -2,6 +2,7 @@ import React from "react";
 import './styles.css';
 import Moment from 'react-moment';
 import moment from 'moment';
+import useSound from 'use-sound';
 
 type TimerProps = {
     duration: number
@@ -9,8 +10,8 @@ type TimerProps = {
 
 type TimerState = {
     running: boolean
-    start: number 
-    end: number 
+    start: Date 
+    end: Date 
     remainingTime: number
 }
 
@@ -21,33 +22,32 @@ export default class Timer extends React.Component<TimerProps, TimerState>{
         super(props);       
         this.state = {
             running: false,
-            start: 0,
-            end: 0,
+            start: new Date(),
+            end: new Date(),
             remainingTime: 0
         }
     }
     
 
     startTimer = () => {
-        var start = new Date().getTime();
+        var start = new Date();
         this.setState({
             running: true,
             start: start, 
-            end: start + this.props.duration * 1000 
+            end: moment(start).add(this.props.duration, 's').toDate()
         })
     }
 
     stopTimer = () => {
        this.setState({
            running: false,
-           start: 0, 
-           end: 0
        }) 
     }
 
     tick = () => {
+        var now = moment(new Date())
         this.setState({
-            remainingTime: this.state.end - new Date().getTime()
+            remainingTime: moment(this.state.end).diff(now)
         })
         if(this.state.running && this.state.remainingTime <= 0)        
         {
@@ -69,11 +69,13 @@ export default class Timer extends React.Component<TimerProps, TimerState>{
         this.intervalId = null;
     }
     render(){ 
+        const toPositiveFilter = (d: string) => {
+            return d.replace("-", "")
+        }
         return(
             <div>
                 <button onClick={this.startTimer} className="button" >Start</button> <button onClick={this.stopTimer} className="button">Stop</button> 
-                <p>{ this.state.running ? <Moment format="YYYY/mm/dd hh:mm:ss">{this.state.remainingTime}</Moment> : null }</p>
-                <p>{ this.state.running ? this.state.remainingTime/1000 : null }</p>
+                <p>{ this.state.running ? <Moment durationFromNow filter={toPositiveFilter}>{this.state.end}</Moment> : null }</p>
             </div>
         ) 
     }

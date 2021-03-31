@@ -20,11 +20,7 @@ export class MainForm extends React.Component<{ message: string}, MainFormState>
     render(){
         return(
             <div>
-                <div onClick={() => this.increment(1)}>
-                    {this.state.count}
-                </div>
                 <TimeInput ></TimeInput>
-                <Moment format="YYYY/MM/DD hh:mm:ss"></Moment>
             </div>
 
         )
