@@ -20,9 +20,6 @@ export default class TimeInput extends React.Component<TimeInputProps, TimeInput
         this.handleChange = this.handleChange.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
-    state: TimeInputState = {
-        value: "time..."
-    }
 
     handleChange(e: React.ChangeEvent<HTMLInputElement>){
         this.setState({ value: e.target.value })

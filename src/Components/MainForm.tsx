@@ -5,32 +5,25 @@ import Timer from './Timer';
 
 type MainFormState = {
     durationInput: string, 
-    count: number,
     currentDateTime: Date
 }
 
 export class MainForm extends React.Component<{ message: string}, MainFormState>{
     state: MainFormState = {
         durationInput:"",
-        count: 0,
+        
         currentDateTime: new Date()
     }
     intervalId : any;
-
+    
     render(){
         return(
             <div>
                 <TimeInput ></TimeInput>
             </div>
-
         )
-
     }
-    increment = (amt: number) => {
-        this.setState((state) => ({
-            count: state.count + amt
-        }));
-    }
+    
 
     tick(){
         this.setState(
