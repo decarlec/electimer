@@ -1,20 +1,7 @@
 import React from 'react';
-import Moment from 'react-moment';
 import TimeInput from './TimeInput';
-import Timer from './Timer';
 
-type MainFormState = {
-    durationInput: string, 
-    currentDateTime: Date
-}
-
-export class MainForm extends React.Component<{ message: string}, MainFormState>{
-    state: MainFormState = {
-        durationInput:"",
-        
-        currentDateTime: new Date()
-    }
-    intervalId : any;
+export class MainForm extends React.Component{
     
     render(){
         return(
