@@ -1,36 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import Timer from "./Timer";
 
 const defaultTimerDuration = "15";
 
-export default class TimeInput extends React.Component{
-
-    constructor(props){
-        super(props);
-        this.state = { value: defaultTimerDuration }
-        this.handleChange = this.handleChange.bind(this);
-        this.handleClick = this.handleClick.bind(this);
+const TimeInput = () => {
+    const [value, setValue] = useState(defaultTimerDuration)
+    
+    const handleChange = (e) => {
+     setValue(e.target.value)
     }
 
-    handleChange(e){
-     this.setState({ value: e.target.value })
-    }
-
-    handleClick(e){ 
+    const handleClick = (e) => { 
         this.setState({ value: ""})
     }
+    return (
+        <div>         
+            <form>
+                <input type="text" value={value} 
+                onChange={(e) => { setValue(e.target.value) }}
+                onClick={(e) => { setValue(e.target.value) }}/>
+            </form>
+            <Timer duration={value}></Timer>
+        </div>
+    )
 
-    render(){
-        return(
-            <div>         
-                <form>
-                    <input type="text" value={this.state.value} 
-                    onChange={this.handleChange}
-                    onClick={this.handleClick}
-                    ref={this.instanceRef} />
-                </form>
-                <Timer duration={this.state.value} /*clickHandler={this.handleBtnClick}*/ ></Timer>
-            </div>
-        )
-    }
+
 }
+
+export default TimeInput

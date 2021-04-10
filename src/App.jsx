@@ -3,7 +3,7 @@ import './App.css';
 import { MainForm } from './Components/MainForm';
 
 const App = () => (
-    <MainForm message="Hello!"/>
+    <MainForm />
 );
 
 export default App;
