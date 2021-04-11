@@ -1,4 +1,4 @@
-class SoudPlayer extends Component {
+class SoundPlayer extends Component {
     state = { play: false }
 
     audio = new Audio(this.props.url)
@@ -19,4 +19,4 @@ class SoudPlayer extends Component {
     }
 }
  
-export default SoudPlayer;
+export default SoundPlayer;
