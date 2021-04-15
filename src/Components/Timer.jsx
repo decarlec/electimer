@@ -1,74 +1,51 @@
-import React, { useState, useEffect, setInterval, clearInterval, } from "react";
+import React, { useState, useEffect } from "react";
 import './styles.css';
-import Moment from 'react-moment';
-import moment from 'moment';
 import { evaluate } from 'mathjs';
+import dayjs from 'dayjs';
 
-const initialState = { 
-    running: false,
-    start: new Date(),
-    end: new Date(),
-    remainingTime: 0,
-    soundPlaying: false
-}
+const tickRate = 100;
+const audio = new Audio('bensound-creativeminds.mp3');
 
 const Timer = ({ duration }) => {
-    const [timerState, setTimerState] = useState(initialState)
+    const [running, setRunning] = useState(false);
+    const [end, setEnd] = useState(dayjs().add(duration, 's'));
+    const [remaining, setRemaining] = useState(end.diff(dayjs()));
+    
 
-    const audio = new Audio('bensound-creativeminds.mp3')
-
-    const startTimer = () => {
-        var start = new Date();
-        setTimerState({
-            running: true,
-            start: start,
-            end: moment(start).add(evaluate(duration), 's').toDate()
-        })
+    useEffect(() => {
+        const timer = running && setInterval(() => 
+        {            
+            setRemaining(end.subtract(dayjs()));
+            if (remaining <= 0) {
+                stopTimer();
+                displayTimerPopup();
+            }
+        }, 100);
+        return () => clearInterval(timer);
+    }, [remaining, running]);
+    
+    const startTimer = () => {              
+        setEnd(dayjs().add(evaluate(duration), 's'));
+        setRunning(true); 
     }
 
     const stopTimer = () => {
-        setTimerState({ running: false})
+        setRunning(false);
+        audio.pause();
     }
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-          setTimerState(...timerState, remainingTime });
-        }, 1000);
-        return () => clearInterval(interval);
-      }, []);
-
-    // useEffect(() => {
-    //     const interval = setInterval(() => {
-    //         var now = moment(new Date())
-    //         setTimerState({
-    //             remainingTime: moment(timerState.end).diff(now)
-    //         })
-            
-    //         if (timerState.running && timerState.remainingTime <= 0) {
-    //             stopTimer();
-    //             window.confirm("Timer is finished", audio.play());
-    //         }
-
-    //         return () => clearInterval(interval)
-    //     }, 100)
-    // })
-
-
-
-    const pauseAudio = () => {
-        this.audio.pause();
-    }
-
-    const toPositiveFilter = (d) => {
-        return d.replace("-", "")
+    const displayTimerPopup = () => {
+        if(window.confirm("Timer is finished", audio.play())){
+            audio.pause();
+        }
     }
 
     return (
         <div>
             <button onClick={startTimer} className="button" >Start</button> <button onClick={stopTimer} className="button">Stop</button>
-            <p>{timerState.running ? <Moment durationFromNow filter={toPositiveFilter}>{timerState.end}</Moment> : null}</p>
+            { running ? <p>{ remaining.toLocaleString() }</p> : null }
         </div>
-    )
+    );
 }
 
 export default Timer

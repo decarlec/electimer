@@ -10,27 +10,4 @@ export class MainForm extends React.Component{
             </div>
         )
     }
-    
-
-    tick(){
-        this.setState(
-            {
-                currentDateTime: new Date()
-            }
-        )
-    }
-
-    componentWillMount = () =>
-    {
-        this.tick();
-    }
-    
-    componentDidMount = () => {
-        this.intervalId =  setInterval(() => this.tick(), 1000);
-    }
-
-    componentWillUnmount = () => {
-        this.intervalId = null;
-    }
-
 }
