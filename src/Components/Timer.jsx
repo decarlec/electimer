@@ -1,8 +1,8 @@
 import React from "react";
 import './styles.css';
-import Moment from 'react-moment';
-import moment from 'moment';
+import { msToTimeFormatted } from '../Helper';
 import { evaluate } from 'mathjs';
+import dayjs from 'dayjs';
 
 export default class Timer extends React.Component {
     state = {
@@ -13,35 +13,46 @@ export default class Timer extends React.Component {
         soundPlaying: false
     }
 
+    tickRate = 100;
     audio = new Audio('bensound-creativeminds.mp3')
 
     startTimer = () => {
         this.audio.pause();
-        var start = new Date();
         this.setState({
             running: true,
-            start: start,
-            end: moment(start).add(evaluate(this.props.duration), 's').toDate()
+            remainingTime: this.props.duration
         })
     }
 
     stopTimer = () => {
-        //this.audio.play();
+        this.setState({
+            running: false,
+            remainingTime: 0
+        })
+    }
+
+    pauseTimer = () => {
         this.setState({
             running: false,
         })
     }
 
     tick = () => {
-        var now = moment(new Date())
-        this.setState({ 
-            remainingTime: moment(this.state.end).diff(now)
-        })
-        if (this.state.running && this.state.remainingTime <= 0) {
-            this.stopTimer();
-            window.confirm("Timer is finished", this.audio.play());
-        }
+        if(this.state.running){
+            this.setState({ 
+                remainingTime: this.state.remainingTime - this.tickRate
+            });
+            if (this.state.remainingTime <= 0) {
+                this.stopTimer();
+                if(window.confirm("Timer is finished", this.audio.play()))
+                {
+                    this.audio.pause();
+                }
+            }
+        } 
     }
+
+
 
     pauseAudio = () => {
         this.audio.pause();
@@ -65,10 +76,10 @@ export default class Timer extends React.Component {
         }
         return (
             <div>
-
                 <button onClick={this.startTimer} className="button" >Start</button> <button onClick={this.stopTimer} className="button">Stop</button>
-                <p>{this.state.running ? <Moment durationFromNow filter={toPositiveFilter}>{this.state.end}</Moment> : null}</p>
+                <p onClick={this.pauseTimer}>{ msToTimeFormatted(this.state.remainingTime) }</p>
             </div>
         )
-    }
+    }   
 }
+

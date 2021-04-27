@@ -5,14 +5,16 @@ const defaultTimerDuration = "15";
 
 const TimeInput = () => {
     const [value, setValue] = useState(defaultTimerDuration)
-    
-    const handleChange = (e) => {
-     setValue(e.target.value)
-    }
 
-    const handleClick = (e) => { 
-        this.setState({ value: ""})
+    function getDurationInMs(){
+        if(value.endsWith("m")){
+            return value.replace("m", "") * 60000;
+        }
+        else{
+            return value * 1000;
+        }
     }
+    
     return (
         <div>         
             <form>
@@ -20,7 +22,7 @@ const TimeInput = () => {
                 onChange={(e) => { setValue(e.target.value) }}
                 onClick={(e) => { setValue(e.target.value) }}/>
             </form>
-            <Timer duration={value}></Timer>
+            <Timer duration={getDurationInMs()}></Timer>
         </div>
     )
 
